@@ -36,7 +36,7 @@ st.sidebar.header("Input Your Details")
 
 def user_input_features():
     age = st.sidebar.number_input("Age", min_value=1, max_value=120, value=50)
-    sex = st.sidebar.selectbox("Sex", [1, 0])
+    sex = st.sidebar.selectbox("Sex", ["Male", "Female"])
     cp = st.sidebar.selectbox("Chest Pain Type (cp)", [0, 1, 2, 3])
     trestbps = st.sidebar.number_input("Resting Blood Pressure", value=120)
     chol = st.sidebar.number_input("Serum Cholesterol", value=200)
@@ -67,3 +67,4 @@ st.write("Heart Disease Risk: ", "Yes" if prediction[0] == 1 else "No")
 
 st.subheader("Prediction Probability")
 st.write(prediction_proba)
+

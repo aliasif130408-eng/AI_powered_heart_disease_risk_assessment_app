@@ -6,34 +6,32 @@ from sklearn.ensemble import RandomForestClassifier
 
 st.title("AI Powered Heart Disease Risk Assessment App")
 
-# Paths
+# === Paths relative to this script ===
 BASE_DIR = os.path.dirname(__file__)
 csv_path = os.path.join(BASE_DIR, "heart.csv")
 model_path = os.path.join(BASE_DIR, "best_model.pkl")
 
-# Try to load model
-try:
-    model = joblib.load(model_path)
-    st.success("Model loaded successfully!")
-except:
-    st.warning("Model file not found. Training a new model...")
+# === Delete old model if exists to avoid feature mismatch ===
+if os.path.exists(model_path):
+    os.remove(model_path)
+    st.warning("Old model deleted to retrain with current dataset.")
 
-    # Load Kaggle CSV
-    data = pd.read_csv(csv_path)
+# === Load the Kaggle CSV ===
+data = pd.read_csv(csv_path)
 
-    # Prepare features and target
-    X = data.drop('target', axis=1)
-    y = data['target']
+# === Prepare features and target ===
+X = data.drop('target', axis=1)
+y = data['target']
 
-    # Train model
-    model = RandomForestClassifier()
-    model.fit(X, y)
+# === Train model ===
+model = RandomForestClassifier()
+model.fit(X, y)
 
-    # Save the model
-    joblib.dump(model, model_path)
-    st.success("Model trained and saved!")
+# === Save the trained model ===
+joblib.dump(model, model_path)
+st.success("Model trained and saved!")
 
-# Sidebar inputs
+# === Sidebar inputs ===
 st.sidebar.header("Input Your Details")
 
 def user_input_features():
@@ -52,25 +50,15 @@ def user_input_features():
     thal = st.sidebar.selectbox("Thalassemia", [0, 1, 2, 3])
 
     features = {
-        'age': age,
-        'sex': sex,
-        'cp': cp,
-        'trestbps': trestbps,
-        'chol': chol,
-        'fbs': fbs,
-        'restecg': restecg,
-        'thalach': thalach,
-        'exang': exang,
-        'oldpeak': oldpeak,
-        'slope': slope,
-        'ca': ca,
-        'thal': thal
+        'age': age, 'sex': sex, 'cp': cp, 'trestbps': trestbps,
+        'chol': chol, 'fbs': fbs, 'restecg': restecg, 'thalach': thalach,
+        'exang': exang, 'oldpeak': oldpeak, 'slope': slope, 'ca': ca, 'thal': thal
     }
     return pd.DataFrame(features, index=[0])
 
 input_df = user_input_features()
 
-# Prediction
+# === Prediction ===
 prediction = model.predict(input_df)
 prediction_proba = model.predict_proba(input_df)
 

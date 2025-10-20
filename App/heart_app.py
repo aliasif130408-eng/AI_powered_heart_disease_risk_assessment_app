@@ -10,8 +10,43 @@ from imblearn.ensemble import EasyEnsembleClassifier
 import shap
 import plotly.express as px
 
+import streamlit as st
+import pandas as pd
+import numpy as np
+import pickle as pkl
+from PIL import Image
+import io
+from lightgbm import LGBMClassifier
+import category_encoders as ce
+from imblearn.ensemble import EasyEnsembleClassifier
+import shap
+import plotly.express as px
+import joblib
+import os
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import train_test_split
+
+# === REPLACE YOUR MODEL LOADING SECTION WITH THIS ===
+# Try to load model, if not found train a new one
+try:
+    model = joblib.load('best_model.pkl')
+    st.success("Model loaded successfully!")
+except:
+    st.warning("Model file not found. Training a new model...")
+    # Train new model if file doesn't exist
+    data = pd.read_csv('heart.csv')
+    X = data.drop('target', axis=1)
+    y = data['target']
+    
+    model = RandomForestClassifier(n_estimators=100, random_state=42)
+    model.fit(X, y)
+    
+    # Save for future use
+    joblib.dump(model, 'best_model.pkl')
+    st.success("New model trained and saved!")
+
 # Load the pickled model and encoder
-with open('best_model.pkl', 'rb') as model_file:
+with open('App/best_model.pkl', 'rb') as model_file:
     model = pkl.load(model_file)
 
 with open('cbe_encoder.pkl', 'rb') as encoder_file:
@@ -405,3 +440,4 @@ with row10_1:
         [![MAIL Badge](https://img.shields.io/badge/-aktham.momani81@gmail.com-c14438?style=flat-square&logo=Gmail&logoColor=white&link=mailto:aktham.momani81@gmail.com)](mailto:aktham.momani81@gmail.com)
         ###### © Aktham Momani, 2024. All rights reserved.
     """)
+

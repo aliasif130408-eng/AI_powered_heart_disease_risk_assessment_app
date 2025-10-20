@@ -1,20 +1,9 @@
-# Install dependencies as needed:
-# pip install kagglehub[pandas-datasets]
-import kagglehub
-from kagglehub import KaggleDatasetAdapter
+import pandas as pd
+import os
 
-# Set the path to the file you'd like to load
-file_path = ""
+# Make path relative to this script
+BASE_DIR = os.path.dirname(__file__)
+csv_path = os.path.join(BASE_DIR, "heart.csv")
 
-# Load the latest version
-df = kagglehub.load_dataset(
-  KaggleDatasetAdapter.PANDAS,
-  "johnsmith88/heart-disease-dataset",
-  file_path,
-  # Provide any additional arguments like 
-  # sql_query or pandas_kwargs. See the 
-  # documenation for more information:
-  # https://github.com/Kaggle/kagglehub/blob/main/README.md#kaggledatasetadapterpandas
-)
-
-print("First 5 records:", df.head())
+# Load the CSV
+df = pd.read_csv(csv_path)

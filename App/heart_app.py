@@ -6,34 +6,34 @@ from sklearn.ensemble import RandomForestClassifier
 
 st.title("AI Powered Heart Disease Risk Assessment App")
 
-# === Setup paths relative to this script ===
+# Paths
 BASE_DIR = os.path.dirname(__file__)
 csv_path = os.path.join(BASE_DIR, "heart.csv")
 model_path = os.path.join(BASE_DIR, "best_model.pkl")
 
-# === Try loading the model ===
+# Try to load model
 try:
     model = joblib.load(model_path)
     st.success("Model loaded successfully!")
 except:
     st.warning("Model file not found. Training a new model...")
 
-    # === Load the dataset ===
+    # Load Kaggle CSV
     data = pd.read_csv(csv_path)
 
-    # === Prepare features and target ===
+    # Prepare features and target
     X = data.drop('target', axis=1)
     y = data['target']
 
-    # === Train model ===
+    # Train model
     model = RandomForestClassifier()
     model.fit(X, y)
 
-    # === Save the trained model ===
+    # Save the model
     joblib.dump(model, model_path)
     st.success("Model trained and saved!")
 
-# === User inputs for prediction ===
+# Sidebar inputs
 st.sidebar.header("Input Your Details")
 
 def user_input_features():
@@ -70,7 +70,7 @@ def user_input_features():
 
 input_df = user_input_features()
 
-# === Prediction ===
+# Prediction
 prediction = model.predict(input_df)
 prediction_proba = model.predict_proba(input_df)
 

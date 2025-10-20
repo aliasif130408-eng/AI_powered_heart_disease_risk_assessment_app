@@ -34,7 +34,15 @@ try:
 except:
     st.warning("Model file not found. Training a new model...")
     # Train new model if file doesn't exist
-    data = pd.read_csv('heart.csv')
+    import os
+
+# Make path relative to this script
+BASE_DIR = os.path.dirname(__file__)
+csv_path = os.path.join(BASE_DIR, "heart.csv")
+
+# Load CSV
+data = pd.read_csv(csv_path)
+
     X = data.drop('target', axis=1)
     y = data['target']
     
@@ -440,4 +448,5 @@ with row10_1:
         [![MAIL Badge](https://img.shields.io/badge/-aktham.momani81@gmail.com-c14438?style=flat-square&logo=Gmail&logoColor=white&link=mailto:aktham.momani81@gmail.com)](mailto:aktham.momani81@gmail.com)
         ###### © Aktham Momani, 2024. All rights reserved.
     """)
+
 

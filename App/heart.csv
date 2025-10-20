@@ -1,9 +1,0 @@
-import pandas as pd
-import os
-
-# Make path relative to this script
-BASE_DIR = os.path.dirname(__file__)
-csv_path = os.path.join(BASE_DIR, "heart.csv")
-
-# Load the CSV
-df = pd.read_csv(csv_path)

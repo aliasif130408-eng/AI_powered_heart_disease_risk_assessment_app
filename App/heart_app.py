@@ -14,6 +14,21 @@ st.markdown(
     unsafe_allow_html=True
 )
 
+st.markdown(
+    """
+    <style>
+    /* Input fields background */
+    div.stSlider, div.stNumberInput, div.stSelectbox {
+        background-color: #cce0ff;  /* Light blue for the input container */
+        border-radius: 8px;
+        padding: 5px;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
+
 
 st.markdown(
     """
@@ -105,6 +120,7 @@ if st.button("🔍 Predict Heart Disease Risk"):
     except Exception as e:
         st.error(f"An error occurred during prediction: {e}")
         st.write("Input DataFrame:", input_df)
+
 
 
 

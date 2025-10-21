@@ -47,6 +47,19 @@ st.markdown(
     unsafe_allow_html=True
 )
 
+st.markdown(
+    """
+    <style>
+    /* Dropdown menu background and text color */
+    div[role="listbox"] {
+        background-color: #cce0ff;  /* Light blue dropdown */
+        color: #003366;  /* Dark blue text */
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
 # Load the trained model
 model = pickle.load(open('model.pkl', 'rb'))
 
@@ -120,6 +133,7 @@ if st.button("🔍 Predict Heart Disease Risk"):
     except Exception as e:
         st.error(f"An error occurred during prediction: {e}")
         st.write("Input DataFrame:", input_df)
+
 
 
 

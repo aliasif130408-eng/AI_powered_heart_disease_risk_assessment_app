@@ -76,8 +76,6 @@ st.markdown('<div style="text-align:center; white-space: nowrap; font-size:28px;
 # Instructions
 st.write("Answer the following questions to assess your risk of heart disease.")
 
-st.write("Answer the following questions to assess your risk of heart disease.")
-
 # --- USER INPUTS ---
 age = st.number_input("Age", min_value=1, max_value=120, step=1)
 
@@ -143,6 +141,7 @@ if st.button("🔍 Predict Heart Disease Risk"):
     except Exception as e:
         st.error(f"An error occurred during prediction: {e}")
         st.write("Input DataFrame:", input_df)
+
 
 
 

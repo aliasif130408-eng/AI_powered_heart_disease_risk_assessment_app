@@ -14,6 +14,24 @@ st.markdown(
     unsafe_allow_html=True
 )
 
+
+st.markdown(
+    """
+    <style>
+    /* Button color */
+    div.stButton > button:first-child {
+        background-color: #3399ff;  /* Bright blue */
+        color: white;
+    }
+    div.stButton > button:hover {
+        background-color: #0066cc;  /* Darker blue on hover */
+        color: white;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
 # Load the trained model
 model = pickle.load(open('model.pkl', 'rb'))
 
@@ -87,5 +105,6 @@ if st.button("🔍 Predict Heart Disease Risk"):
     except Exception as e:
         st.error(f"An error occurred during prediction: {e}")
         st.write("Input DataFrame:", input_df)
+
 
 

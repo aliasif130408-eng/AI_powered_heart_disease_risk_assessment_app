@@ -2,6 +2,18 @@ import streamlit as st
 import pandas as pd
 import pickle
 
+st.markdown(
+    """
+    <style>
+    /* Background color */
+    .stApp {
+        background-color: #e6f0ff;  /* Light blue background */
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
 # Load the trained model
 model = pickle.load(open('model.pkl', 'rb'))
 
@@ -75,4 +87,5 @@ if st.button("🔍 Predict Heart Disease Risk"):
     except Exception as e:
         st.error(f"An error occurred during prediction: {e}")
         st.write("Input DataFrame:", input_df)
+
 

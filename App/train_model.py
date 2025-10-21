@@ -3,12 +3,7 @@ from sklearn.ensemble import RandomForestClassifier
 import pickle
 
 # Load your dataset
-df = pd.read_csv("heart.csv")  # Make sure heart.csv is in your repo root
-
-# Map categorical columns if needed
-# (Assuming heart.csv uses numeric codes already; adjust if it uses strings)
-# Example if you have 'sex' as 'Male'/'Female':
-# df['sex'] = df['sex'].map({'Male': 0, 'Female': 1})
+df = pd.read_csv("heart.csv")  # Make sure heart.csv is in the same folder
 
 # Define features and target
 features = ['age', 'sex', 'cp', 'trestbps', 'chol', 'fbs',
@@ -21,7 +16,7 @@ y = df['target']
 model = RandomForestClassifier(random_state=42)
 model.fit(X, y)
 
-# Save the trained model
+# Save the trained model as model.pkl
 with open("model.pkl", "wb") as f:
     pickle.dump(model, f)
 

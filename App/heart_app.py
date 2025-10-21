@@ -3,7 +3,8 @@ import pandas as pd
 import pickle
 
 # Load your trained model
-model = pickle.load(open('model.pkl', 'rb'))
+model = pickle.load(open('best_model.pkl', 'rb'))
+
 
 st.set_page_config(page_title="Heart Disease Risk Predictor", page_icon="❤️", layout="centered")
 
@@ -78,3 +79,4 @@ if st.button("🔍 Predict Heart Disease Risk"):
     except Exception as e:
         st.error(f"An error occurred during prediction: {e}")
         st.write("Input DataFrame:", input_df)
+

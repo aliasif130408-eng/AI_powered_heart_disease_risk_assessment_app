@@ -178,6 +178,15 @@ if st.button("🔍 Predict Heart Disease Risk"):
 
 
 
+st.markdown(
+    """
+    <div style="text-align:center; color:#003366; font-size:14px; margin-top:40px;">
+    This tool is for educational purposes only and does not replace professional medical advice. Always consult a qualified doctor for health concerns.
+    </div>
+    """,
+    unsafe_allow_html=True
+)
+
 
 
 

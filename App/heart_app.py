@@ -1,70 +1,80 @@
 import streamlit as st
 import pandas as pd
-import os
-import joblib
-from sklearn.ensemble import RandomForestClassifier
+import pickle
 
-st.title("AI Powered Heart Disease Risk Assessment App")
+# Load your trained model
+model = pickle.load(open('model.pkl', 'rb'))
 
-# === Paths relative to this script ===
-BASE_DIR = os.path.dirname(__file__)
-csv_path = os.path.join(BASE_DIR, "heart.csv")
-model_path = os.path.join(BASE_DIR, "best_model.pkl")
+st.set_page_config(page_title="Heart Disease Risk Predictor", page_icon="❤️", layout="centered")
 
-# === Delete old model if exists to avoid feature mismatch ===
-if os.path.exists(model_path):
-    os.remove(model_path)
-    st.warning("Old model deleted to retrain with current dataset.")
+st.title("💓 AI-Powered Heart Disease Risk Assessment App")
+st.write("Answer the following questions to assess your risk of heart disease.")
 
-# === Load the Kaggle CSV ===
-data = pd.read_csv(csv_path)
+# --- USER INPUTS ---
+age = st.number_input("Age", min_value=1, max_value=120, step=1)
 
-# === Prepare features and target ===
-X = data.drop('target', axis=1)
-y = data['target']
+sex = st.selectbox("Sex", ["Male", "Female"])
 
-# === Train model ===
-model = RandomForestClassifier()
-model.fit(X, y)
+cp = st.selectbox(
+    "Chest Pain Type (cp)",
+    ["Typical Angina", "Atypical Angina", "Non-anginal Pain", "Asymptomatic"]
+)
 
-# === Save the trained model ===
-joblib.dump(model, model_path)
-st.success("Model trained and saved!")
+trestbps = st.number_input("Resting Blood Pressure (trestbps) in mm Hg", min_value=50, max_value=250, step=1)
+chol = st.number_input("Serum Cholestoral (chol) in mg/dl", min_value=100, max_value=600, step=1)
 
-# === Sidebar inputs ===
-st.sidebar.header("Input Your Details")
+fbs = st.selectbox("Fasting Blood Sugar > 120 mg/dl (fbs)", ["No", "Yes"])
 
-def user_input_features():
-    age = st.sidebar.number_input("Age", min_value=1, max_value=120, value=50)
-    sex = st.sidebar.selectbox("Sex", ["Male", "Female"])
-    cp = st.sidebar.selectbox("Chest Pain Type (cp)", [0, 1, 2, 3])
-    trestbps = st.sidebar.number_input("Resting Blood Pressure", value=120)
-    chol = st.sidebar.number_input("Serum Cholesterol", value=200)
-    fbs = st.sidebar.selectbox("Fasting Blood Sugar > 120 mg/dl", [0, 1])
-    restecg = st.sidebar.selectbox("Resting ECG results", [0, 1, 2])
-    thalach = st.sidebar.number_input("Maximum Heart Rate Achieved", value=150)
-    exang = st.sidebar.selectbox("Exercise Induced Angina", [0, 1])
-    oldpeak = st.sidebar.number_input("ST depression induced by exercise", value=1.0)
-    slope = st.sidebar.selectbox("Slope of the peak exercise ST segment", [0, 1, 2])
-    ca = st.sidebar.selectbox("Number of major vessels colored", [0, 1, 2, 3, 4])
-    thal = st.sidebar.selectbox("Thalassemia", [0, 1, 2, 3])
+restecg = st.selectbox(
+    "Resting Electrocardiographic Results (restecg)",
+    ["Normal", "ST-T Wave Abnormality", "Left Ventricular Hypertrophy"]
+)
 
-    features = {
-        'age': age, 'sex': sex, 'cp': cp, 'trestbps': trestbps,
-        'chol': chol, 'fbs': fbs, 'restecg': restecg, 'thalach': thalach,
-        'exang': exang, 'oldpeak': oldpeak, 'slope': slope, 'ca': ca, 'thal': thal
-    }
-    return pd.DataFrame(features, index=[0])
+thalach = st.number_input("Maximum Heart Rate Achieved (thalach)", min_value=60, max_value=220, step=1)
+exang = st.selectbox("Exercise Induced Angina (exang)", ["No", "Yes"])
+oldpeak = st.number_input("ST Depression Induced by Exercise (oldpeak)", min_value=0.0, max_value=10.0, step=0.1)
 
-input_df = user_input_features()
+slope = st.selectbox("Slope of the Peak Exercise ST Segment (slope)", ["Upsloping", "Flat", "Downsloping"])
+ca = st.selectbox("Number of Major Vessels Colored by Fluoroscopy (ca)", [0, 1, 2, 3, 4])
+thal = st.selectbox("Thalassemia (thal)", ["Normal", "Fixed Defect", "Reversible Defect"])
 
-# === Prediction ===
-prediction = model.predict(input_df)
-prediction_proba = model.predict_proba(input_df)
+# --- CONVERT INPUTS TO NUMERIC FORM ---
+sex_map = {"Male": 0, "Female": 1}
+cp_map = {"Typical Angina": 0, "Atypical Angina": 1, "Non-anginal Pain": 2, "Asymptomatic": 3}
+fbs_map = {"No": 0, "Yes": 1}
+restecg_map = {"Normal": 0, "ST-T Wave Abnormality": 1, "Left Ventricular Hypertrophy": 2}
+exang_map = {"No": 0, "Yes": 1}
+slope_map = {"Upsloping": 0, "Flat": 1, "Downsloping": 2}
+thal_map = {"Normal": 1, "Fixed Defect": 2, "Reversible Defect": 3}
 
-st.subheader("Prediction")
-st.write("Heart Disease Risk: ", "Yes" if prediction[0] == 1 else "No")
+# Create input DataFrame
+input_data = {
+    'age': age,
+    'sex': sex_map[sex],
+    'cp': cp_map[cp],
+    'trestbps': trestbps,
+    'chol': chol,
+    'fbs': fbs_map[fbs],
+    'restecg': restecg_map[restecg],
+    'thalach': thalach,
+    'exang': exang_map[exang],
+    'oldpeak': oldpeak,
+    'slope': slope_map[slope],
+    'ca': ca,
+    'thal': thal_map[thal]
+}
 
-st.subheader("Prediction Probability")
-st.write(prediction_proba)
+input_df = pd.DataFrame([input_data])
 
+# Debug info (you can comment this out later)
+# st.write("Input data for prediction:", input_df)
+
+# --- PREDICTION ---
+if st.button("🔍 Predict Heart Disease Risk"):
+    try:
+        prediction = model.predict(input_df)
+        result = "🩺 **High Risk of Heart Disease**" if prediction[0] == 1 else "💖 **Low Risk of Heart Disease**"
+        st.subheader(result)
+    except Exception as e:
+        st.error(f"An error occurred during prediction: {e}")
+        st.write("Input DataFrame:", input_df)

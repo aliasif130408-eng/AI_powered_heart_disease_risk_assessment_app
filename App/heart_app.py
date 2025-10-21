@@ -59,8 +59,10 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
-st.markdown('<h1 style="color:#003366; text-align:center; font-size:70px;">MEDAI</h1>', unsafe_allow_html=True)
-
+st.markdown(
+    '<div style="text-align:center; white-space: nowrap; font-size:28px; color:#003366; margin-top:-20px; margin-bottom:40px;">💓 AI-Powered Heart Disease Risk Assessment App</div>',
+    unsafe_allow_html=True
+)
 
 # Load the trained model
 model = pickle.load(open('model.pkl', 'rb'))
@@ -138,6 +140,7 @@ if st.button("🔍 Predict Heart Disease Risk"):
     except Exception as e:
         st.error(f"An error occurred during prediction: {e}")
         st.write("Input DataFrame:", input_df)
+
 
 
 

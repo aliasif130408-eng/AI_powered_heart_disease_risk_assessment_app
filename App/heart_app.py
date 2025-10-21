@@ -59,14 +59,16 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
-st.markdown('<h1 style="color:#003366; text-align:center;">MEDAI</h1>', unsafe_allow_html=True)
+st.markdown('<h1 style="color:#003366; text-align:center; font-size:70px;">MEDAI</h1>', unsafe_allow_html=True)
+
 
 # Load the trained model
 model = pickle.load(open('model.pkl', 'rb'))
 
 
 st.set_page_config(page_title="Heart Disease Risk Predictor", page_icon="❤️", layout="centered")
-st.title("💓 AI-Powered Heart Disease Risk Assessment App")
+st.markdown('<h2 style="color:#003366; text-align:center;">💓 AI-Powered Heart Disease Risk Assessment App</h2>', unsafe_allow_html=True)
+
 st.write("Answer the following questions to assess your risk of heart disease.")
 
 # --- USER INPUTS ---
@@ -134,6 +136,7 @@ if st.button("🔍 Predict Heart Disease Risk"):
     except Exception as e:
         st.error(f"An error occurred during prediction: {e}")
         st.write("Input DataFrame:", input_df)
+
 
 
 

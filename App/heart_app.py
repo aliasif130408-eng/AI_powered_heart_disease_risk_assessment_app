@@ -2,12 +2,10 @@ import streamlit as st
 import pandas as pd
 import pickle
 
-# Load your trained model
-model = pickle.load(open('best_model.pkl', 'rb'))
-
+# Load the trained model
+model = pickle.load(open('model.pkl', 'rb'))
 
 st.set_page_config(page_title="Heart Disease Risk Predictor", page_icon="❤️", layout="centered")
-
 st.title("💓 AI-Powered Heart Disease Risk Assessment App")
 st.write("Answer the following questions to assess your risk of heart disease.")
 
@@ -67,9 +65,6 @@ input_data = {
 
 input_df = pd.DataFrame([input_data])
 
-# Debug info (you can comment this out later)
-# st.write("Input data for prediction:", input_df)
-
 # --- PREDICTION ---
 if st.button("🔍 Predict Heart Disease Risk"):
     try:
@@ -79,4 +74,3 @@ if st.button("🔍 Predict Heart Disease Risk"):
     except Exception as e:
         st.error(f"An error occurred during prediction: {e}")
         st.write("Input DataFrame:", input_df)
-

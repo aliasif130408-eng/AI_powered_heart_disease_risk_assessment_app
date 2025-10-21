@@ -5,6 +5,7 @@ import pickle
 # Load the trained model
 model = pickle.load(open('model.pkl', 'rb'))
 
+
 st.set_page_config(page_title="Heart Disease Risk Predictor", page_icon="❤️", layout="centered")
 st.title("💓 AI-Powered Heart Disease Risk Assessment App")
 st.write("Answer the following questions to assess your risk of heart disease.")
@@ -74,3 +75,4 @@ if st.button("🔍 Predict Heart Disease Risk"):
     except Exception as e:
         st.error(f"An error occurred during prediction: {e}")
         st.write("Input DataFrame:", input_df)
+

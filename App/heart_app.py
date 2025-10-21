@@ -16,6 +16,24 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
+st.markdown(
+    """
+    <style>
+    div.stButton > button:first-child {
+        background-color: #3399ff;  /* bright blue */
+        color: white;               /* text color */
+        font-size: 18px;
+        border-radius: 10px;
+        padding: 10px 20px;
+    }
+    div.stButton > button:hover {
+        background-color: #0066cc;  /* darker blue on hover */
+        color: white;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
 
 st.markdown(
     """
@@ -156,6 +174,7 @@ if st.button("🔍 Predict Heart Disease Risk"):
     except Exception as e:
         st.error(f"An error occurred during prediction: {e}")
         st.write("Input DataFrame:", input_df)
+
 
 
 

@@ -166,10 +166,28 @@ input_data = {
 
 input_df = pd.DataFrame([input_data])
 
+# --- DATA SMOOTHER ---
+def clean_inputs(df):
+    """Limit unrealistic or extreme feature values before prediction."""
+    df = df.copy()
+
+    # Cap physiologically extreme values
+    df.loc[df['oldpeak'] > 5.0, 'oldpeak'] = 5.0          # ST depression rarely >5
+    df.loc[df['ca'] > 3, 'ca'] = 3                        # dataset max
+    df.loc[df['trestbps'] < 80, 'trestbps'] = 80          # avoid unrealistically low BP
+    df.loc[df['trestbps'] > 200, 'trestbps'] = 200        # avoid extreme high BP
+    df.loc[df['chol'] > 400, 'chol'] = 400                # trim very high cholesterol
+    df.loc[df['thalach'] > 200, 'thalach'] = 200          # cap high HR
+    df.loc[df['thalach'] < 80, 'thalach'] = 80            # cap low HR
+
+    return df
+
+
 # --- PREDICTION ---
 if st.button("🔍 Predict Heart Disease Risk"):
     try:
-        prediction = model.predict(input_df)
+        cleaned_df = clean_inputs(input_df)
+        prediction = model.predict(cleaned_df)
         result = "🩺 **High Risk of Heart Disease**" if prediction[0] == 1 else "💖 **Low Risk of Heart Disease**"
         st.subheader(result)
     except Exception as e:
@@ -186,6 +204,7 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
+
 
 
 

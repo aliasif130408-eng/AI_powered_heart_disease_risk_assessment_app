@@ -211,6 +211,32 @@ st.markdown(
 
 
 
+import streamlit as st
+
+# … your existing code …
+
+# Footer
+st.markdown(
+    """
+    <style>
+    .footer {
+        position: fixed;
+        bottom: 0;
+        right: 0;
+        width: auto;
+        text-align: right;
+        padding: 10px;
+        font-size: 0.8rem;
+        color: #888;
+    }
+    </style>
+    <div class="footer">
+        Created by Ali Asif and Abubakar Saleem
+    </div>
+    """,
+    unsafe_allow_html=True
+)
+
 
 
 

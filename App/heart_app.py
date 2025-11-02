@@ -214,17 +214,20 @@ st.markdown(
 import streamlit as st
 
 # … your existing code …
+import streamlit as st
 
-# Footer
+# … your existing app code …
+
+# Footer (bottom-left)
 st.markdown(
     """
     <style>
     .footer {
         position: fixed;
         bottom: 0;
-        right: 0;
+        left: 0;
         width: auto;
-        text-align: right;
+        text-align: left;
         padding: 10px;
         font-size: 0.8rem;
         color: #888;
@@ -236,8 +239,6 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
-
-
 
 
 
